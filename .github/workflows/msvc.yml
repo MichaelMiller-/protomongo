@@ -1,0 +1,47 @@
+name: MSVC
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        config: [Debug, Release]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      working-directory: ${{runner.workspace}}
+      run: |
+        git clone https://github.com/Microsoft/vcpkg.git 
+        cd vcpkg
+        bootstrap-vcpkg.bat
+        vcpkg install catch2:x64-windows
+        vcpkg install mongo-cxx-driver:x64-windows
+        vcpkg install protobuf:x64-windows
+        vcpkg integrate install
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_TOOLCHAIN_FILE=D:/a/protomongo/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build . --config ${{matrix.config}}
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      run: ctest --build-config ${{matrix.config}}
