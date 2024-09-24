@@ -8,14 +8,10 @@
 
 #include "movie.pb.h"
 
-#include <iostream>
-
 TEST_CASE("Finds a single document in a collection", "[protomongo]")
 {
    char const* uri = std::getenv("PROTOMONGO_URI_TEST_DATABASE");
    REQUIRE(uri != nullptr);
-
-   std::cout << "uri: " << uri << std::endl;
 
    mongocxx::instance inst{};
    mongocxx::client conn{mongocxx::uri{uri}};
