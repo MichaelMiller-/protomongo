@@ -55,4 +55,5 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: ctest --build-config ${{matrix.config}} --rerun-failed --output-on-failure
-
+        env:
+          PROTOMONGO_URI_TEST_DATABASE: ${{secrets.PROTOMONGO_URI_TEST_DATABASE}}

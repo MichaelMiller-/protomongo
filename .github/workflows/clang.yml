@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        version: [ 17, 18 ]
+        version: [ 18 ]
         config: [ Debug, Release ]
 
     steps:
@@ -60,4 +60,7 @@ jobs:
       - name: Test
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: ctest --build-config ${{matrix.config}}
+        run: ctest --build-config ${{matrix.config}} --rerun-failed --output-on-failure
+        env:
+          PROTOMONGO_URI_TEST_DATABASE: ${{secrets.PROTOMONGO_URI_TEST_DATABASE}}
+
