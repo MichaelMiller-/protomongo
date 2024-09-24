@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package example;
+
+message Movie
+{
+  string plot = 1;
+  string title = 2;
+  int32 runtime = 3;
+  int32 year = 4;
+
+  //! \todo: repeated string -> e.g: 'genres', 'cast', 'directors', 'writers'
+  //! \todo: child's -> e.g: 'imdb', 'awards', 'viewer'
+}
