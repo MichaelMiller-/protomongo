@@ -1,0 +1,7 @@
+{
+  "dependencies": [
+    "catch2",
+    "mongo-cxx-driver",
+    "protobuf"
+  ]
+}

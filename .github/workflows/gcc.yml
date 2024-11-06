@@ -34,9 +34,6 @@ jobs:
           git clone https://github.com/Microsoft/vcpkg.git 
           cd vcpkg
           ./bootstrap-vcpkg.sh
-          ./vcpkg install catch2
-          ./vcpkg install mongo-cxx-driver
-          ./vcpkg install protobuf
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
