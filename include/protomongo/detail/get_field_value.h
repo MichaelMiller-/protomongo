@@ -12,10 +12,10 @@ namespace protomongo::detail
 {
    template <typename T>
       requires std::is_base_of_v<google::protobuf::Message, T>
-   auto get_field_value(T const& obj, google::protobuf::FieldDescriptor const& field)
+   [[nodiscard]] auto get_field_value(T const& obj, google::protobuf::FieldDescriptor const& field)
       -> std::variant<std::int32_t, std::int64_t, double, std::string>
    {
-      auto reflection = T::GetReflection();
+      decltype(auto) reflection = T::GetReflection();
 
       switch (field.cpp_type()) {
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_INT32: {
