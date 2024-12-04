@@ -19,7 +19,7 @@ namespace protomongo
       using bsoncxx::builder::basic::kvp;
       auto doc = collection.find_one(bsoncxx::builder::basic::make_document(kvp(key, value)));
       if (doc) {
-         return detail::from_bson<T>(*doc);
+         return std::optional<T>{detail::from_bson<T>(*doc)};
       }
       return std::nullopt;
    }
