@@ -1,6 +1,7 @@
 #include <catch.hpp>
 
 #include <protomongo/detail/get_field_value.h>
+#include <protomongo/detail/make_document_value.h>
 
 #include "user.pb.h"
 
@@ -15,7 +16,7 @@ TEST_CASE("extract a value of a field", "[protomongo]")
 
    SECTION("get user-id")
    {
-      auto field = desc->FindFieldByName("id");
+      decltype(auto) field = desc->FindFieldByName("id");
       REQUIRE(field != nullptr);
 
       auto result = protomongo::detail::get_field_value(obj, *field);
@@ -24,7 +25,7 @@ TEST_CASE("extract a value of a field", "[protomongo]")
    }
    SECTION("get user-name")
    {
-      auto field = desc->FindFieldByName("name");
+      decltype(auto) field = desc->FindFieldByName("name");
       REQUIRE(field != nullptr);
 
       auto result = protomongo::detail::get_field_value(obj, *field);
@@ -33,7 +34,7 @@ TEST_CASE("extract a value of a field", "[protomongo]")
    }
    SECTION("get user-cash")
    {
-      auto field = desc->FindFieldByName("cash");
+      decltype(auto) field = desc->FindFieldByName("cash");
       REQUIRE(field != nullptr);
 
       auto result = protomongo::detail::get_field_value(obj, *field);

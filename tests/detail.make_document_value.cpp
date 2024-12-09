@@ -1,21 +1,19 @@
 #include <catch.hpp>
 
-#include <bsoncxx/string/to_string.hpp>
-
-#include <protomongo/detail/append_fields.h>
+#include <protomongo/detail/make_document_value.h>
 
 #include "user.pb.h"
 
-TEST_CASE("append fields from any given object to a bson::document", "[protomongo]")
+using namespace std::string_view_literals;
+
+TEST_CASE("Make a bson::document from any given protobuf object", "[protomongo]")
 {
    example::User obj{};
    obj.set_id(42);
    obj.set_name("John Doe");
    obj.set_cash(9.81);
 
-   bsoncxx::builder::stream::document doc{};
-   protomongo::detail::append_fields(doc, obj);
-   auto result = doc << bsoncxx::builder::stream::finalize;
+   auto result = protomongo::detail::make_document_value(obj);
 
    SECTION("test user-id")
    {
@@ -25,7 +23,7 @@ TEST_CASE("append fields from any given object to a bson::document", "[protomong
    SECTION("test user-name")
    {
       auto elem = result["name"];
-      REQUIRE(bsoncxx::string::to_string(elem.get_string().value) == "John Doe");
+      REQUIRE(elem.get_string().value == "John Doe"sv);
    }
    SECTION("test user-cash")
    {

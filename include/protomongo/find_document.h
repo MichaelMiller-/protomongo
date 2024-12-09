@@ -3,7 +3,7 @@
 #include <google/protobuf/message.h>
 #include <mongocxx/collection.hpp>
 
-#include "detail/from_bson.h"
+#include "detail/make_protobuf_object.h"
 
 #include <optional>
 #include <string_view>
@@ -14,12 +14,14 @@ namespace protomongo
    template <typename T>
       requires std::is_base_of_v<google::protobuf::Message, T>
    [[nodiscard]] auto find_document(mongocxx::collection& collection, std::string_view key,
-                                    auto const& value) -> std::optional<T>
+                                    auto&& value) -> std::optional<T>
    {
       using bsoncxx::builder::basic::kvp;
-      auto doc = collection.find_one(bsoncxx::builder::basic::make_document(kvp(key, value)));
+      using bsoncxx::builder::basic::make_document;
+
+      auto doc = collection.find_one(make_document(kvp(key, std::forward<decltype(value)>(value))));
       if (doc) {
-         return std::optional<T>{detail::from_bson<T>(*doc)};
+         return std::optional<T>{detail::make_protobuf_object<T>(*doc)};
       }
       return std::nullopt;
    }

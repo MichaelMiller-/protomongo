@@ -1,10 +1,9 @@
 #pragma once
 
-#include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/document/value.hpp>
 #include <google/protobuf/message.h>
 
-#include "detail/append_fields.h"
+#include "detail/make_document_value.h"
 
 namespace protomongo
 {
@@ -13,8 +12,6 @@ namespace protomongo
       requires std::is_base_of_v<google::protobuf::Message, T>
    [[nodiscard]] auto create_document(T const& obj) -> bsoncxx::document::value
    {
-      bsoncxx::builder::stream::document doc{};
-      detail::append_fields(doc, obj);
-      return doc << bsoncxx::builder::stream::finalize;
+      return detail::make_document_value(obj);
    }
 } // namespace protomongo
