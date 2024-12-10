@@ -50,13 +50,10 @@ namespace protomongo::detail
          reflection->SetBool(&obj, &field, elem.get_bool());
          break;
       }
-#if 0
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_ENUM: {
-         // protobuf enumeration is implicit a int
-         //! \todo: reflection->SetEnum(&obj, &field, elem.get_int32());
+         reflection->SetEnumValue(&obj, &field, elem.get_int32());
          break;
       }
-#endif
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_STRING: {
          reflection->SetString(&obj, &field, bsoncxx::string::to_string(elem.get_string().value));
          break;
