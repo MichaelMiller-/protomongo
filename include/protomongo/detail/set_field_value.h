@@ -30,12 +30,14 @@ namespace protomongo::detail
       }
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_UINT32: {
          //! \todo design a customization point
-         reflection->SetUInt32(&obj, &field, convert<std::uint32_t>(elem.get_string().value));
+         reflection->SetUInt32(&obj, &field,
+                               convert<std::uint32_t>(static_cast<std::string_view>(elem.get_string().value)));
          break;
       }
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_UINT64: {
          //! \todo design a customization point
-         reflection->SetUInt64(&obj, &field, convert<std::uint64_t>(elem.get_string().value));
+         reflection->SetUInt64(&obj, &field,
+                               convert<std::uint64_t>(static_cast<std::string_view>(elem.get_string().value)));
          break;
       }
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_DOUBLE: {

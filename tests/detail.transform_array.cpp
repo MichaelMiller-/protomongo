@@ -26,6 +26,7 @@ TEST_CASE("Transform any given field of type array to a bson::document::value", 
    auto tags = result.view();
    auto expected = std::array{"tag1"sv, "tag2"sv, "tag3"sv};
 
-   REQUIRE(std::equal(tags.begin(), tags.end(), expected.begin(),
-                      [](auto const& lhs, auto const& rhs) { return lhs.get_string() == rhs; }));
+   REQUIRE(std::equal(tags.begin(), tags.end(), expected.begin(), [](auto const& lhs, auto const& rhs) {
+      return static_cast<std::string_view>(lhs.get_string().value) == rhs;
+   }));
 }

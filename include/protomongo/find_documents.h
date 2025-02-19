@@ -13,7 +13,7 @@ namespace protomongo
    //! \brief Finds the documents in this collection which match the provided key-value pair.
    template <typename T>
       requires std::is_base_of_v<google::protobuf::Message, T>
-   [[nodiscard]] auto find_documents(mongocxx::collection& collection, std::string_view key,
+   [[nodiscard]] auto find_documents(mongocxx::collection& collection, std::string const& key,
                                      auto&& value) -> std::vector<T>
    {
       using bsoncxx::builder::basic::kvp;
