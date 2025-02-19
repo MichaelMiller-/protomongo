@@ -2,9 +2,45 @@ syntax = "proto3";
 
 package example;
 
+// list is not complete
+enum State {
+  NY = 0;
+  DC = 1;
+  FL = 2;
+  WA = 3;
+  MA = 4;
+  CA = 5;
+  SD = 6;
+}
+
+message Address
+{
+  string street = 1;
+  string city = 2;
+  State state = 3;
+  int32 zip_code = 4;
+}
+
+message Personality
+{
+  repeated string motivations = 1;
+  repeated string frustrations = 2;
+  repeated string goals = 3;
+}
+
+message SocialMedia
+{
+  string name = 1;
+  int32 rating = 2;
+}
+
 message User
 {
   int64 id = 1;
   string name = 2;
   double cash = 3;
+  Address address = 4;
+  repeated string tags = 5;
+  Personality personality = 6;
+  repeated SocialMedia social_media = 7;
 }
