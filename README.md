@@ -21,8 +21,14 @@ auto find_document(mongocxx::collection& collection, std::string_view key, auto 
 
 Finds the documents in this collection which match the provided key-value pair.
 ```cpp
-template <typename T>
-auto find_documents(mongocxx::collection& collection, std::string_view key, auto const& value) -> std::vector<T>
+template <typename T, template <typename...> typename ReturnType = std::vector>
+auto find_documents(mongocxx::collection& collection, std::string_view key, auto const& value) -> ReturnType<T>
+```
+
+Finds all documents in this collection
+```cpp
+template <typename T, template <typename...> typename ReturnType = std::vector>
+auto find_documents(mongocxx::collection& collection) -> ReturnType<T>
 ```
 
 ## Example
@@ -76,7 +82,7 @@ There a are several methods to get the library.
 ### Use CPM
 One of them is the setup-free CMake [CPM](https://github.com/cpm-cmake/CPM.cmake) dependency manager:
 ```cmake
-CPMAddPackage("gh:MichaelMiller-/protomongo@1.0.0")
+CPMAddPackage("gh:MichaelMiller-/protomongo@1.1.0")
 ## ...
 target_link_libraries(target_name PRIVATE protomongo::protomongo)
 ```
@@ -94,7 +100,7 @@ FetchContent_MakeAvailable(protomongo)
 ## find_package(Catch2 CONFIG REQUIRED)
 set_target_properties(protomongo PROPERTIES BUILD_TESTING FALSE)
 
-## Link against sec21::sec21
+## Link against protomongo::protomongo
 target_link_libraries(target_name PRIVATE protomongo::protomongo)
 ```
 
