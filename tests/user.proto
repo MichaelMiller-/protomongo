@@ -13,7 +13,7 @@ enum State {
   SD = 6;
 }
 
-message Address
+message UserAddress
 {
   string street = 1;
   string city = 2;
@@ -39,7 +39,7 @@ message User
   int64 id = 1;
   string name = 2;
   double cash = 3;
-  Address address = 4;
+  UserAddress address = 4;
   repeated string tags = 5;
   Personality personality = 6;
   repeated SocialMedia social_media = 7;
