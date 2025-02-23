@@ -5,6 +5,7 @@ target_include_directories(protos PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 set(input_files
         movie.proto
+        theater.proto
         user.proto
 )
 protobuf_generate(

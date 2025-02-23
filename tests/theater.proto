@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package example;
+
+message Address
+{
+  string city = 1;
+}
+
+message Location
+{
+  Address address = 1;
+}
+
+message Theater
+{
+  int32 theaters = 1;
+  Location location = 2;
+}
