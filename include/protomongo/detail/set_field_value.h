@@ -2,6 +2,7 @@
 
 #include <bsoncxx/document/view.hpp>
 #include <bsoncxx/string/to_string.hpp>
+
 #include <google/protobuf/message.h>
 
 #include "convert.h"
@@ -11,7 +12,6 @@
 
 namespace protomongo::detail
 {
-   //! \todo write tests
    template <typename T>
       requires std::is_base_of_v<google::protobuf::Message, T>
    auto set_field_value(T& obj, google::protobuf::FieldDescriptor const& field,
@@ -57,7 +57,14 @@ namespace protomongo::detail
          break;
       }
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_STRING: {
-         reflection->SetString(&obj, &field, bsoncxx::string::to_string(elem.get_string().value));
+         if (elem.type() == bsoncxx::type::k_string) {
+            reflection->SetString(&obj, &field, bsoncxx::string::to_string(elem.get_string().value));
+         }
+         if (elem.type() == bsoncxx::type::k_oid) {
+            // convert ObjectID to std::string
+            // https://www.mongodb.com/docs/manual/reference/bson-types/#std-label-objectid
+            reflection->SetString(&obj, &field, elem.get_oid().value.to_string());
+         }
          break;
       }
       case google::protobuf::FieldDescriptor::CppType::CPPTYPE_MESSAGE: {
