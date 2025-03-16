@@ -100,7 +100,7 @@ FetchContent_MakeAvailable(protomongo)
 ## find_package(Catch2 CONFIG REQUIRED)
 set_target_properties(protomongo PROPERTIES BUILD_TESTING FALSE)
 
-## Link against protomongo::protomongo
+## Link against protomongo
 target_link_libraries(target_name PRIVATE protomongo::protomongo)
 ```
 
